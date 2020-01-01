@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
+import EditDetails from './EditDetails'
 
 import {
   withStyles,
@@ -17,7 +18,8 @@ import {
   LocationOn,
   Link as LinkIcon,
   CalendarToday,
-  Edit as EditIcon
+  Edit as EditIcon,
+  KeyboardReturn
 } from '@material-ui/icons'
 
 import { connect } from 'react-redux'
@@ -40,6 +42,10 @@ class Profile extends Component {
   handleEditPicture = () => {
     const fileInput = document.getElementById('imageInput')
     fileInput.click()
+  }
+
+  handleLogout = () => {
+    this.props.logoutUser()
   }
 
   render() {
@@ -95,6 +101,12 @@ class Profile extends Component {
             <CalendarToday color="primary" />{' '}
             <span>Joined {dayjs(createdAt).format('MM YYYY')}</span>
           </div>
+          <Tooltip title="Logout" placement="top">
+            <IconButton onClick={this.handleLogout}>
+              <KeyboardReturn color="primary" />
+            </IconButton>
+          </Tooltip>
+          <EditDetails />
         </div>
       </Paper>
     ) : (
