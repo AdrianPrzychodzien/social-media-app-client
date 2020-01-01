@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AppIcon from '../images/icon.png'
-import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 import {
@@ -14,6 +13,7 @@ import {
 } from '@material-ui/core'
 
 import { connect } from 'react-redux'
+
 import { loginUser } from '../redux/actions/userActions'
 
 const styles = (theme) => ({
