@@ -28,8 +28,8 @@ const styles = {
 class Scream extends Component {
   render() {
     dayjs.extend(relativeTime)
-    const { classes, scream: { body, createdAt, userImage, userHandle, screamId, likeCount, commentCount } } = this.props
-
+    const { classes, scream: { body, createdAt, userImage, userHandle } } = this.props
+    // , screamId, likeCount, commentCount
     return (
       <Card className={classes.card}>
         <CardMedia image={userImage} title='Profile image' className={classes.image} />
