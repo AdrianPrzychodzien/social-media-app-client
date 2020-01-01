@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import MyButton from '../util/MyButton'
+import PostScream from './PostScream'
 
 // Material-UI
 import { AppBar, Toolbar, Button } from '@material-ui/core'
 
-import { Add as AddIcon, Home as HomeIcon, Notifications } from '@material-ui/icons'
+import { Home as HomeIcon, Notifications } from '@material-ui/icons'
 
 class NavBar extends Component {
   render() {
@@ -18,9 +19,7 @@ class NavBar extends Component {
         <Toolbar className='nav-container'>
           {authenticated ? (
             <>
-              <MyButton tip="Post a Scream!">
-                <AddIcon />
-              </MyButton>
+              <PostScream />
               <Link to="/">
                 <MyButton tip="Home">
                   <HomeIcon />

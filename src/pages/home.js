@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
 import Grid from '@material-ui/core/Grid'
 
 import Scream from '../components/Scream'
@@ -18,9 +17,10 @@ class home extends Component {
   render() {
     const { screams, loading } = this.props.data
     let recentScreamsMarkup = !loading ? (
-      screams.map(scream => <Scream key={scream.screamId} scream={scream} />
+      screams.map(scream => <Scream key={scream.screamId} scream={scream} />)
+    ) : (
+        <p>Loading...</p>
       )
-    ) : <p>Loading...</p>
 
     return (
       <Grid container spacing={2}>
@@ -44,4 +44,7 @@ const mapStateToProps = state => ({
   data: state.data
 })
 
-export default connect(mapStateToProps, { getScreams })(home)
+export default connect(
+  mapStateToProps,
+  { getScreams }
+)(home)

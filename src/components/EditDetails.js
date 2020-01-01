@@ -4,11 +4,11 @@ import MyButton from '../util/MyButton'
 
 import {
   Button,
-  TextField,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  TextField,
   withStyles
 } from '@material-ui/core'
 
