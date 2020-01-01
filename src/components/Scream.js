@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import MyButton from '../util/MyButton'
+import DeleteScream from './DeleteScream'
 
 import {
   Card,
@@ -24,6 +25,7 @@ import { likeScream, unlikeScream } from '../redux/actions/dataActions'
 
 const styles = {
   card: {
+    position: 'relative',
     display: 'flex',
     marginBottom: 20
   },
@@ -49,17 +51,17 @@ class Scream extends Component {
   }
 
   likeScream = () => {
-    this.props.likeScream(this.props.screamId)
+    this.props.likeScream(this.props.scream.screamId)
   }
 
   unlikeScream = () => {
-    this.props.unlikeScream(this.props.screamId)
+    this.props.unlikeScream(this.props.scream.screamId)
   }
 
   render() {
     dayjs.extend(relativeTime)
     const { classes, scream: { body, createdAt, userImage, userHandle, likeCount, commentCount, screamId } } = this.props
-    const { authenticated } = this.props.user;
+    const { authenticated, credentials: { handle } } = this.props.user;
 
     const likeButton = !authenticated ? (
       <MyButton tip="Like">
@@ -67,16 +69,21 @@ class Scream extends Component {
           <FavoriteBorder color="primary" />
         </Link>
       </MyButton>
-    ) : this.likedScream() ? (
-      <MyButton tip="Undo like" onClick={this.unlikeScream}>
-        <FavoriteIcon color="primary" />
-      </MyButton>
     ) : (
-          <MyButton tip="Like" onClick={this.likeScream}>
-            <FavoriteBorder color="primary" />
+        this.likedScream() ? (
+          <MyButton tip="Undo like" onClick={this.unlikeScream}>
+            <FavoriteIcon color="primary" />
           </MyButton>
-        )
+        ) : (
+            <MyButton tip="Like" onClick={this.likeScream}>
+              <FavoriteBorder color="primary" />
+            </MyButton>
+          )
+      )
 
+    const deleteButton = authenticated && userHandle === handle ? (
+      <DeleteScream screamId={screamId} />
+    ) : null
 
     return (
       <Card className={classes.card}>
@@ -88,6 +95,7 @@ class Scream extends Component {
             to={`/users/${userHandle}`}
             color='primary'
           >{userHandle}</Typography>
+          {deleteButton}
           <Typography
             variant='body2'
             color='textSecondary'
