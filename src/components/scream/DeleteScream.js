@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import MyButton from '../util/MyButton'
+import MyButton from '../../util/MyButton'
 
 import {
   Button,
@@ -13,7 +13,7 @@ import {
 import { DeleteOutline } from '@material-ui/icons'
 
 import { connect } from 'react-redux'
-import { deleteScream } from '../redux/actions/dataActions'
+import { deleteScream } from '../../redux/actions/dataActions'
 
 const styles = {
   deleteButton: {

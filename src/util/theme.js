@@ -13,9 +13,6 @@ export default {
       contrastText: '#000',
     },
   },
-  typography: {
-    useNextVariants: true
-  },
   styles: {
     form: {
       textAlign: 'center'
@@ -40,19 +37,24 @@ export default {
     },
     progress: {
       position: 'absolute'
-    }
+    },
+    typography: {
+      useNextVariants: true
+    },
   },
-  invisibleSeparator: {
-    border: 'none',
-    margin: 4
-  },
-  visibleSeparator: {
-    width: '100%',
-    borderBottom: '1px solid rgba(0,0,0,0.1)',
-    marginBottom: 20
-  },
-  paper: {
-    padding: 20
+  separators: {
+    invisibleSeparator: {
+      border: 'none',
+      margin: 4
+    },
+    visibleSeparator: {
+      width: '100%',
+      borderBottom: '1px solid rgba(0,0,0,0.1)',
+      marginBottom: 20
+    },
+    typography: {
+      useNextVariants: true
+    },
   },
   profile: {
     profile: {
@@ -96,15 +98,6 @@ export default {
       '& a': {
         margin: '20px 10px'
       }
-    },
-    invisibleSeparator: {
-      border: 'none',
-      margin: 4
-    },
-    visibleSeparator: {
-      width: '100%',
-      borderBottom: '1px solid rgba(0,0,0,0.1)',
-      marginBottom: 20
     },
     paper: {
       padding: 20

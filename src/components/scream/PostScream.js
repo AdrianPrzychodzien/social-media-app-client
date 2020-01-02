@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import MyButton from '../util/MyButton'
+import MyButton from '../../util/MyButton'
 
 import {
   Button,
@@ -18,7 +18,7 @@ import {
 } from '@material-ui/icons'
 
 import { connect } from 'react-redux'
-import { postScream, clearErrors } from '../redux/actions/dataActions'
+import { postScream, clearErrors } from '../../redux/actions/dataActions'
 
 const styles = theme => ({
   ...theme.styles,

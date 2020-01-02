@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import MyButton from '../util/MyButton'
+import MyButton from '../../util/MyButton'
 
 import {
   Button,
@@ -15,7 +15,7 @@ import {
 import { Edit as EditIcon } from '@material-ui/icons'
 
 import { connect } from 'react-redux'
-import { editUserDetails } from '../redux/actions/userActions'
+import { editUserDetails } from '../../redux/actions/userActions'
 
 const styles = theme => ({
   ...theme.styles,

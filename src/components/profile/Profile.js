@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 import EditDetails from './EditDetails'
-import MyButton from '../util/MyButton'
+import MyButton from '../../util/MyButton'
 
 import {
   withStyles,
@@ -22,10 +22,11 @@ import {
 } from '@material-ui/icons'
 
 import { connect } from 'react-redux'
-import { logoutUser, uploadImage } from '../redux/actions/userActions'
+import { logoutUser, uploadImage } from '../../redux/actions/userActions'
 
 const styles = (theme) => ({
-  ...theme.profile
+  ...theme.profile,
+  ...theme.separators
 })
 
 class Profile extends Component {
