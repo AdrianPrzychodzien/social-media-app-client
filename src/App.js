@@ -20,9 +20,12 @@ import home from './pages/home'
 import login from './pages/login'
 import signup from './pages/signup'
 import user from './pages/user'
+
 import axios from 'axios';
 
 const theme = createMuiTheme(themeFile);
+
+axios.defaults.baseURL = "https://europe-west1-social-media-app-37207.cloudfunctions.net/api"
 
 const token = localStorage.FBIdToken
 if (token) {
