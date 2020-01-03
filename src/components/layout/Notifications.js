@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import MyButton from '../../util/MyButton'
 
 import {
   Badge,
@@ -124,7 +123,7 @@ class Notifications extends Component {
 
 Notifications.propTypes = {
   markNotificationsRead: PropTypes.func.isRequired,
-  notifications: PropTypes.object.isRequired
+  notifications: PropTypes.array.isRequired
 }
 
 const mapStateToProps = state => ({

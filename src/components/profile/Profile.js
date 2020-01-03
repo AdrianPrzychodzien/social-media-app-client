@@ -3,28 +3,30 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 import EditDetails from './EditDetails'
+
 import MyButton from '../../util/MyButton'
+import ProfileSkeleton from '../../util/ProfileSkeleton'
 
 import {
-  withStyles,
   Button,
-  Typography,
+  Link as MuiLink,
   Paper,
-  Link as MuiLink
+  Typography,
+  withStyles,
 } from '@material-ui/core'
 
 import {
-  LocationOn,
-  Link as LinkIcon,
   CalendarToday,
   Edit as EditIcon,
-  KeyboardReturn
+  KeyboardReturn,
+  Link as LinkIcon,
+  LocationOn
 } from '@material-ui/icons'
 
 import { connect } from 'react-redux'
 import { logoutUser, uploadImage } from '../../redux/actions/userActions'
 
-const styles = (theme) => ({
+const styles = theme => ({
   ...theme.profile,
   ...theme.separators
 })
@@ -121,7 +123,7 @@ class Profile extends Component {
           </Button>
           </div>
         </Paper>
-      )) : (<p>loading..</p>)
+      )) : (<ProfileSkeleton />)
 
     return profileMarkup
   }

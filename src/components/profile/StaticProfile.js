@@ -11,18 +11,18 @@ import {
 } from '@material-ui/core'
 
 import {
+  CalendarToday,
   LocationOn,
-  Link as LinkIcon,
-  CalendarToday
+  Link as LinkIcon
 } from '@material-ui/icons'
 
-const styles = (theme) => ({
+const styles = theme => ({
   ...theme.styles,
   ...theme.separators,
   ...theme.profile
 })
 
-const StaticProfile = (props) => {
+const StaticProfile = props => {
   const {
     classes,
     profile: { handle, createdAt, imageUrl, bio, website, location }
