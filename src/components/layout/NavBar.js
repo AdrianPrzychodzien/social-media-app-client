@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import MyButton from '../../util/MyButton'
 import PostScream from '../scream/PostScream'
+import Notifications from './Notifications'
 
-// Material-UI
 import { AppBar, Toolbar, Button } from '@material-ui/core'
 
-import { Home as HomeIcon, Notifications } from '@material-ui/icons'
+import { Home as HomeIcon } from '@material-ui/icons'
+
+import { connect } from 'react-redux'
 
 class NavBar extends Component {
   render() {

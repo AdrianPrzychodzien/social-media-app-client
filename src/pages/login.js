@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core'
 
 import { connect } from 'react-redux'
-
 import { loginUser } from '../redux/actions/userActions'
 
 const styles = (theme) => ({
@@ -133,8 +132,7 @@ const mapStateToProps = state => ({
   UI: state.UI
 })
 
-const mapActionsToProps = {
-  loginUser
-}
-
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(login))
+export default connect(
+  mapStateToProps,
+  { loginUser }
+)(withStyles(styles)(login))
