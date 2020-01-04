@@ -54,6 +54,7 @@ export default function (state = initialState, action) {
         ...state
       }
     case POST_SCREAM:
+      console.log(action.payload)
       return {
         ...state,
         screams: [action.payload, ...state.screams]

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import MyButton from '../../util/MyButton'
 import dayjs from 'dayjs'
@@ -137,7 +137,7 @@ class ScreamDialog extends Component {
       )
 
     return (
-      <>
+      <Fragment>
         <MyButton
           onClick={this.handleOpen}
           tip="Expand scream"
@@ -162,7 +162,7 @@ class ScreamDialog extends Component {
             {dialogMarkup}
           </DialogContent>
         </Dialog>
-      </>
+      </Fragment>
     )
   }
 }

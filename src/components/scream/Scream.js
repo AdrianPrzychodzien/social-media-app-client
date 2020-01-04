@@ -39,8 +39,15 @@ class Scream extends Component {
 
   render() {
     dayjs.extend(relativeTime)
-    const { classes, scream: { body, createdAt, userImage, userHandle, likeCount, commentCount, screamId } } = this.props
-    const { authenticated, credentials: { handle } } = this.props.user;
+    const {
+      classes,
+      scream: {
+        body, createdAt, userImage, userHandle, likeCount, commentCount, screamId },
+      user: {
+        authenticated,
+        credentials: { handle }
+      }
+    } = this.props
 
     const deleteButton = authenticated && userHandle === handle ? (
       <DeleteScream screamId={screamId} />
@@ -64,7 +71,7 @@ class Scream extends Component {
           <Typography variant='body1'>{body}</Typography>
           <LikeButton screamId={screamId} />
           <span>{likeCount} Likes</span>
-          <MyButton tip="comments">
+          <MyButton tip="Comments">
             <ChatIcon color="primary" />
           </MyButton>
           <span>{commentCount} comments</span>

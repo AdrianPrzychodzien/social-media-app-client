@@ -19,9 +19,10 @@ class LikeButton extends Component {
       this.props.user.likes &&
       this.props.user.likes.find(
         like => like.screamId === this.props.screamId
-      )) {
+      )
+    )
       return true
-    } else return false
+    else return false
   }
 
   likeScream = () => {
@@ -41,17 +42,15 @@ class LikeButton extends Component {
           <FavoriteBorder color="primary" />
         </MyButton>
       </Link>
+    ) : this.likedScream() ? (
+      <MyButton tip="Undo like" onClick={this.unlikeScream}>
+        <FavoriteIcon color="primary" />
+      </MyButton>
     ) : (
-        this.likedScream() ? (
-          <MyButton tip="Undo like" onClick={this.unlikeScream}>
-            <FavoriteIcon color="primary" />
+          <MyButton tip="Like" onClick={this.likeScream}>
+            <FavoriteBorder color="primary" />
           </MyButton>
-        ) : (
-            <MyButton tip="Like" onClick={this.likeScream}>
-              <FavoriteBorder color="primary" />
-            </MyButton>
-          )
-      )
+        )
 
     return likeButton
   }
@@ -73,4 +72,7 @@ const mapActionsToProps = {
   unlikeScream
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(LikeButton)
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(LikeButton)

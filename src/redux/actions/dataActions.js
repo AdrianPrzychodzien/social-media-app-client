@@ -18,6 +18,7 @@ export const getScreams = () => dispatch => {
   dispatch({ type: LOADING_DATA })
   axios.get('/screams')
     .then(res => {
+      console.log(res.data.screams)
       dispatch({
         type: SET_SCREAMS,
         payload: res.data
@@ -47,12 +48,14 @@ export const getScream = (screamId) => (dispatch) => {
 }
 
 export const postScream = newScream => dispatch => {
+  console.log(newScream)
   dispatch({ type: LOADING_UI })
   axios.post('/scream', newScream)
     .then(res => {
+      console.log(res.data)
       dispatch({
         type: POST_SCREAM,
-        payoad: res.data
+        payload: res.data
       })
       dispatch(clearErrors())
     })

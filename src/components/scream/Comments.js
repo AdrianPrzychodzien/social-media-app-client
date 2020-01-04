@@ -26,6 +26,7 @@ const styles = theme => ({
 class Comments extends Component {
   render() {
     const { comments, classes } = this.props
+    console.log(comments)
 
     return (
       <Grid container>
@@ -38,7 +39,7 @@ class Comments extends Component {
                   <Grid item sm={2}>
                     <img src={userImage} alt="comment" className={classes.commentImage} />
                   </Grid>
-                  <Grid item={9}>
+                  <Grid item sm={9}>
                     <div className={classes.commentData}>
                       <Typography
                         variant="h5"
@@ -74,8 +75,7 @@ class Comments extends Component {
 }
 
 Comments.propTypes = {
-  comments: PropTypes.func.isRequired
+  comments: PropTypes.array.isRequired
 }
-
 
 export default withStyles(styles)(Comments)

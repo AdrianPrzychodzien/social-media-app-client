@@ -5,7 +5,7 @@ import {
   LOADING_USER,
   LIKE_SCREAM,
   UNLIKE_SCREAM,
-  MARK_NOTIFICATIONS_READ
+  MARK_NOTIFICATIONS_READ,
 } from '../types'
 
 const initialState = {
@@ -43,7 +43,7 @@ export default function (state = initialState, action) {
           ...state.likes,
           {
             userHandle: state.credentials.handle,
-            screamId: action.playload.screamId
+            screamId: action.payload.screamId
           }
         ]
       }
