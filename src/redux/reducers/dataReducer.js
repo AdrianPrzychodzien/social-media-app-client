@@ -38,6 +38,7 @@ export default function (state = initialState, action) {
       let index = state.screams.findIndex(
         scream => scream.screamId === action.payload.screamId
       )
+
       state.screams[index] = action.payload
       if (state.scream.screamId === action.payload.screamId) {
         state.scream = action.payload
@@ -54,7 +55,6 @@ export default function (state = initialState, action) {
         ...state
       }
     case POST_SCREAM:
-      console.log(action.payload)
       return {
         ...state,
         screams: [action.payload, ...state.screams]

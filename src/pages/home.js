@@ -27,7 +27,6 @@ class home extends Component {
       < Grid container spacing={2} >
         <Grid item sm={8} xs={12}>
           {recentScreamsMarkup}
-          {console.log(screams)}
         </Grid>
         <Grid item sm={4} xs={12}>
           <Profile />

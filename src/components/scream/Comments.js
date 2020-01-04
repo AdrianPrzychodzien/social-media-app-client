@@ -9,6 +9,8 @@ import {
   withStyles
 } from '@material-ui/core'
 
+import { connect } from 'react-redux'
+
 const styles = theme => ({
   ...theme.styles,
   ...theme.separators,
@@ -26,7 +28,6 @@ const styles = theme => ({
 class Comments extends Component {
   render() {
     const { comments, classes } = this.props
-    console.log(comments)
 
     return (
       <Grid container>
@@ -78,4 +79,8 @@ Comments.propTypes = {
   comments: PropTypes.array.isRequired
 }
 
-export default withStyles(styles)(Comments)
+const mapStateToProps = state => ({
+  comments: state.data.scream.comments
+})
+
+export default connect(mapStateToProps)(withStyles(styles)(Comments))

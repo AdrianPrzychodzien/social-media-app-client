@@ -132,7 +132,7 @@ class ScreamDialog extends Component {
           </Grid>
           <hr className={classes.visibleSeparator} />
           <CommentForm screamId={screamId} />
-          <Comments comments={comments} />
+          {comments ? <Comments /> : <p>Where are my comments?!</p>}
         </Grid>
       )
 
