@@ -1,4 +1,4 @@
-![social-media-app](client/images//demo.png)
+![social-media-app](src/images/demo.png)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
