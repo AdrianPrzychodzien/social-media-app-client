@@ -76,11 +76,12 @@ class Comments extends Component {
 }
 
 Comments.propTypes = {
-  comments: PropTypes.array.isRequired
+  comments: PropTypes.array.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
-  comments: state.data.scream.comments
+  comments: state.data.scream.comments,
 })
 
 export default connect(mapStateToProps)(withStyles(styles)(Comments))

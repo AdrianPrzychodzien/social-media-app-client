@@ -132,7 +132,7 @@ class ScreamDialog extends Component {
           </Grid>
           <hr className={classes.visibleSeparator} />
           <CommentForm screamId={screamId} />
-          {comments ? <Comments /> : <p>Where are my comments?!</p>}
+          {comments ? <Comments /> : this.handleOpen()}
         </Grid>
       )
 
@@ -173,7 +173,8 @@ ScreamDialog.propTypes = {
   screamId: PropTypes.string.isRequired,
   userHandle: PropTypes.string.isRequired,
   scream: PropTypes.object.isRequired,
-  UI: PropTypes.object.isRequired
+  UI: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
