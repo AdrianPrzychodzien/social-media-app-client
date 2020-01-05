@@ -89,9 +89,10 @@ class ScreamDialog extends Component {
     const {
       classes,
       scream: {
-        screamId, body, createdAt, likeCount, commentCount, userImage, userHandle, comments
+        screamId, body, createdAt, commentCount, userImage, userHandle, comments
       },
-      UI: { loading }
+      UI: { loading },
+      likeCount
     } = this.props
 
     const dialogMarkup = loading ? (
@@ -132,7 +133,7 @@ class ScreamDialog extends Component {
           </Grid>
           <hr className={classes.visibleSeparator} />
           <CommentForm screamId={screamId} />
-          {comments ? <Comments /> : this.props.getScream(this.props.screamId)}
+          <Comments comments={comments} />
         </Grid>
       )
 
@@ -173,12 +174,14 @@ ScreamDialog.propTypes = {
   screamId: PropTypes.string.isRequired,
   userHandle: PropTypes.string.isRequired,
   scream: PropTypes.object.isRequired,
+  likeCount: PropTypes.number.isRequired,
   UI: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => ({
   scream: state.data.scream,
+  likeCount: state.data.scream.likeCount,
   UI: state.UI
 })
 

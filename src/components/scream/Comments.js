@@ -9,8 +9,6 @@ import {
   withStyles
 } from '@material-ui/core'
 
-import { connect } from 'react-redux'
-
 const styles = theme => ({
   ...theme.styles,
   ...theme.separators,
@@ -80,8 +78,4 @@ Comments.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-const mapStateToProps = state => ({
-  comments: state.data.scream.comments,
-})
-
-export default connect(mapStateToProps)(withStyles(styles)(Comments))
+export default withStyles(styles)(Comments)

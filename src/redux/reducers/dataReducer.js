@@ -41,7 +41,7 @@ export default function (state = initialState, action) {
 
       state.screams[index] = action.payload
       if (state.scream.screamId === action.payload.screamId) {
-        state.scream = action.payload
+        state.scream.likeCount = action.payload.likeCount
       }
       return {
         ...state,
@@ -64,6 +64,7 @@ export default function (state = initialState, action) {
         ...state,
         scream: {
           ...state.scream,
+          ...state.scream.commentCount++,
           comments: [action.payload, ...state.scream.comments]
         }
       }
