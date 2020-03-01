@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
+import { Formik, Form, Field } from 'formik'
+
 import {
   Button,
   Grid,
@@ -17,52 +19,49 @@ const styles = theme => ({
 })
 
 const CommentForm = ({ classes, authenticated, submitComment, screamId, UI: { loading, errors } }) => {
-  const [body, setBody] = useState('')
   const [localErrors, setLocalErrors] = useState({})
 
   useEffect(() => {
     errors && setLocalErrors(errors)
-    !errors && !loading && setBody('')
   }, [errors, loading])
 
-  const handleChange = e => {
-    setBody(e.target.value)
-  }
-
-  const handleSubmit = e => {
-    e.preventDefault()
-    submitComment(screamId, { body: body })
-    setBody('')
-  }
-
-  const commentFormMarkup = authenticated ? (
+  return authenticated ? (
     <Grid item sm={12} style={{ textAlign: 'center' }}>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          name="body"
-          type="text"
-          label="Comment on scream"
-          error={localErrors.comment ? true : false}
-          helperText={localErrors.comment}
-          value={body}
-          onChange={handleChange}
-          fullWidth
-          className={classes.textField}
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          className={classes.button}
-        >
-          Submit
-          </Button>
-      </form>
+      <Formik initialValues={{
+        body: ''
+      }}
+        onSubmit={({ body }, { resetForm }) => {
+          submitComment(screamId, { body })
+          resetForm()
+        }}
+      >
+        {() => (
+          <Form>
+            <Field
+              name="body"
+              type="text"
+              label="Comment on scream"
+              error={localErrors.comment ? true : false}
+              helperText={localErrors.comment}
+              fullWidth
+              className={classes.textField}
+              as={TextField}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.button}
+            >
+              Submit
+            </Button>
+          </Form>
+        )}
+      </Formik>
       <hr className={classes.visibleSeparator} />
     </Grid>
   ) : null;
 
-  return commentFormMarkup
 }
 
 CommentForm.propTypes = {

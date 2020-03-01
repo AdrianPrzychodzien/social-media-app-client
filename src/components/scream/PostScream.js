@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import MyButton from '../../util/MyButton'
 
+import { Formik, Form, Field } from 'formik'
+
 import {
   Button,
   CircularProgress,
@@ -44,14 +46,12 @@ const PostScream = ({
   UI: { loading, errors }
 }) => {
   const [open, setOpen] = useState(false)
-  const [body, setBody] = useState('')
   const [localErrors, setLocalErrors] = useState({})
 
   useEffect(() => {
     errors && setLocalErrors(errors)
     if (!errors && !loading) {
       setOpen(false)
-      setBody('')
       setLocalErrors({})
     }
   }, [errors, loading])
@@ -64,15 +64,6 @@ const PostScream = ({
     clearErrors()
     setOpen(false)
     setLocalErrors({})
-  }
-
-  const handleChange = e => {
-    setBody(e.target.value)
-  }
-
-  const handleSubmit = e => {
-    e.preventDefault()
-    postScream({ body: body })
   }
 
   return (
@@ -94,33 +85,43 @@ const PostScream = ({
         </MyButton>
         <DialogTitle>Post a new scream</DialogTitle>
         <DialogContent>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              name="body"
-              type="text"
-              label="Scream!"
-              multiline
-              rows="3"
-              placeholder="Scream at your fellows"
-              error={localErrors && localErrors.body ? true : false}
-              helperText={localErrors && localErrors.body}
-              className={classes.textField}
-              onChange={handleChange}
-              fullWidth
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className={classes.submitButton}
-              disabled={loading}
-            >
-              Submit
+          <Formik initialValues={{
+            body: ''
+          }}
+            onSubmit={({ body }) => {
+              postScream({ body })
+            }}
+          >
+            {() => (
+              <Form>
+                <Field
+                  name="body"
+                  type="text"
+                  label="Scream!"
+                  multiline rows="3"
+                  placeholder="Scream at your fellows"
+                  error={localErrors && localErrors.body ? true : false}
+                  helperText={localErrors && localErrors.body}
+                  className={classes.textField}
+                  fullWidth
+                  as={TextField}
+                />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className={classes.submitButton}
+                  disabled={loading}
+                >
+                  Submit
                 {loading && (
-                <CircularProgress size={30} className={classes.progressSpinner} />
-              )}
-            </Button>
-          </form>
+                    <CircularProgress size={30} className={classes.progressSpinner} />
+                  )}
+                </Button>
+
+              </Form>
+            )}
+          </Formik>
         </DialogContent>
       </Dialog>
     </>

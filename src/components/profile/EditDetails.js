@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import MyButton from '../../util/MyButton'
+
+import { Formik, Form, Field } from 'formik'
 
 import {
   Button,
@@ -26,108 +28,76 @@ const styles = theme => ({
 
 const EditDetails = ({ classes, credentials, editUserDetails }) => {
   const [open, setOpen] = useState(false)
-  const [data, setData] = useState({
-    bio: '',
-    website: '',
-    location: '',
-  })
 
-  useEffect(() => {
-    mapUserDetailsToState(credentials)
-  }, [credentials])
-
-  const { bio, website, location } = data
-
-  const handleOpen = () => {
-    setOpen(true)
-    mapUserDetailsToState(credentials)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
-
-  const mapUserDetailsToState = credentials => {
-    setData({
+  return (
+    <Formik initialValues={{
       bio: credentials.bio ? credentials.bio : '',
       website: credentials.website ? credentials.website : '',
       location: credentials.location ? credentials.location : ''
-    })
-  }
-
-  const handleChange = e => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const handleSubmit = () => {
-    const userDetails = { bio, website, location }
-    editUserDetails(userDetails)
-    handleClose()
-  }
-
-  return (
-    <>
-      <MyButton
-        tip="Edit details"
-        onClick={handleOpen}
-        btnClassName={classes.button}>
-        <EditIcon color="primary" />
-      </MyButton>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        fullWidth
-        maxWidth='sm'>
-        <DialogTitle>Edit your details</DialogTitle>
-        <DialogContent>
-          <form>
-            <TextField
-              name="bio"
-              type="text"
-              label="Bio"
-              multiline
-              rows="3"
-              placeholder="A short bio about yourself"
-              className={classes.textField}
-              value={bio}
-              onChange={handleChange}
-              fullWidth
-            />
-            <TextField
-              name="website"
-              type="text"
-              label="Website"
-              placeholder="Your personal/professional website"
-              className={classes.textField}
-              value={website}
-              onChange={handleChange}
-              fullWidth
-            />
-            <TextField
-              name="location"
-              type="text"
-              label="Location"
-              placeholder="Where you live"
-              className={classes.textField}
-              value={location}
-              onChange={handleChange}
-              fullWidth
-            />
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-            </Button>
-          <Button onClick={handleSubmit} color="primary">
-            Save
-            </Button>
-        </DialogActions>
-      </Dialog>
-    </>
+    }}
+      onSubmit={({ bio, website, location }) => {
+        editUserDetails({ bio, website, location })
+      }}
+    >
+      {() => (
+        <>
+          <MyButton
+            tip="Edit details"
+            onClick={() => setOpen(true)}
+            btnClassName={classes.button}>
+            <EditIcon color="primary" />
+          </MyButton>
+          <Dialog
+            open={open}
+            onClose={() => setOpen(false)}
+            fullWidth
+            maxWidth='sm'>
+            <DialogTitle>Edit your details</DialogTitle>
+            <DialogContent>
+              <Form>
+                <Field
+                  name="bio"
+                  type="text"
+                  label="Bio"
+                  multiline
+                  rows="3"
+                  placeholder="A short bio about yourself"
+                  className={classes.textField}
+                  fullWidth
+                  as={TextField}
+                />
+                <Field
+                  name="website"
+                  type="text"
+                  label="Website"
+                  placeholder="Your personal/professional website"
+                  className={classes.textField}
+                  fullWidth
+                  as={TextField}
+                />
+                <Field
+                  name="location"
+                  type="text"
+                  label="Location"
+                  placeholder="Where you live"
+                  className={classes.textField}
+                  fullWidth
+                  as={TextField}
+                />
+                <DialogActions>
+                  <Button onClick={() => setOpen(false)} color="primary">
+                    Cancel
+                    </Button>
+                  <Button type="submit" color="primary">
+                    Save
+                    </Button>
+                </DialogActions>
+              </Form>
+            </DialogContent>
+          </Dialog>
+        </>
+      )}
+    </Formik>
   )
 }
 
