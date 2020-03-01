@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
@@ -22,103 +22,96 @@ import {
 import { connect } from 'react-redux'
 import { markNotificationsRead } from '../../redux/actions/userActions'
 
-class Notifications extends Component {
-  state = {
-    anchorEl: null
+const Notifications = ({ notifications, markNotificationsRead }) => {
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const handleOpen = e => {
+    setAnchorEl(e.target)
   }
 
-  handleOpen = e => {
-    this.setState({ anchorEl: e.target })
+  const handleClose = () => {
+    setAnchorEl(null)
   }
 
-  handleClose = () => {
-    this.setState({ anchorEl: null })
-  }
-
-  onMenuOpened = () => {
-    let unreadNotificationsIds = this.props.notifications
+  const onMenuOpened = () => {
+    let unreadNotificationsIds = notifications
       .filter(not => !not.read)
       .map(not => not.notificationId)
-    this.props.markNotificationsRead(unreadNotificationsIds)
+    markNotificationsRead(unreadNotificationsIds)
   }
 
-  render() {
-    const notifications = this.props.notifications
-    const anchorEl = this.state.anchorEl
+  dayjs.extend(relativeTime)
 
-    dayjs.extend(relativeTime)
-
-    let notificationsIcon
-    if (notifications && notifications.length > 0) {
-      notifications.filter(not => not.read === false).length > 0
-        ? notificationsIcon = (
-          <Badge
-            badgeContent={notifications.filter(not => not.read === false).length}
-            color="secondary"
-          >
-            <NotificationsIcon />
-          </Badge>
-        ) : (
-          notificationsIcon = <NotificationsIcon />
-        )
-    } else {
-      notificationsIcon = <NotificationsIcon />
-    }
-
-    let notificationsMarkup =
-      notifications && notifications.length > 0 ? (
-        notifications.map(not => {
-          const verb = not.type === 'like' ? 'liked' : 'commented on'
-          const time = dayjs(not.createdAt).fromNow()
-          const iconColor = not.read ? 'primary' : 'secondary'
-          const icon = not.type === 'like' ? (
-            <FavoriteIcon color={iconColor} style={{ marginRight: 10 }} />
-          ) : (
-              <ChatIcon color={iconColor} style={{ marginRight: 10 }} />
-            )
-
-          return (
-            <MenuItem key={not.createdAt} onClick={this.handleClose}>
-              {icon}
-              <Typography
-                component={Link}
-                color="default"
-                variant="body1"
-                to={`/users/${not.recipient}/scream/${not.screamId}`}
-              >
-                {not.sender} {verb} your scream {time}
-              </Typography>
-            </MenuItem>
-          )
-        })
-      ) : (
-          <MenuItem onClick={this.handleClose}>
-            You have no notifications yet
-      </MenuItem>
-        )
-
-    return (
-      <>
-        <Tooltip placement="top" title="Notifications">
-          <IconButton
-            aria-owns={anchorEl ? 'simple-menu' : undefined}
-            aria-haspopup="true"
-            onClick={this.handleOpen}
-          >
-            {notificationsIcon}
-          </IconButton>
-        </Tooltip>
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={this.handleClose}
-          onEntered={this.onMenuOpened}
+  let notificationsIcon
+  if (notifications && notifications.length > 0) {
+    notifications.filter(not => not.read === false).length > 0
+      ? notificationsIcon = (
+        <Badge
+          badgeContent={notifications.filter(not => not.read === false).length}
+          color="secondary"
         >
-          {notificationsMarkup}
-        </Menu>
-      </>
-    )
+          <NotificationsIcon />
+        </Badge>
+      ) : (
+        notificationsIcon = <NotificationsIcon />
+      )
+  } else {
+    notificationsIcon = <NotificationsIcon />
   }
+
+  let notificationsMarkup =
+    notifications && notifications.length > 0 ? (
+      notifications.map(not => {
+        const verb = not.type === 'like' ? 'liked' : 'commented on'
+        const time = dayjs(not.createdAt).fromNow()
+        const iconColor = not.read ? 'primary' : 'secondary'
+        const icon = not.type === 'like' ? (
+          <FavoriteIcon color={iconColor} style={{ marginRight: 10 }} />
+        ) : (
+            <ChatIcon color={iconColor} style={{ marginRight: 10 }} />
+          )
+
+        return (
+          <MenuItem key={not.createdAt} onClick={handleClose}>
+            {icon}
+            <Typography
+              component={Link}
+              color="primary"
+              variant="body1"
+              to={`/users/${not.recipient}/scream/${not.screamId}`}
+            >
+              {not.sender} {verb} your scream {time}
+            </Typography>
+          </MenuItem>
+        )
+      })
+    ) : (
+        <MenuItem onClick={handleClose}>
+          You have no notifications yet
+      </MenuItem>
+      )
+
+  return (
+    <>
+      <Tooltip placement="top" title="Notifications">
+        <IconButton
+          aria-owns={anchorEl ? 'simple-menu' : undefined}
+          aria-haspopup="true"
+          onClick={handleOpen}
+        >
+          {notificationsIcon}
+        </IconButton>
+      </Tooltip>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        onEntered={onMenuOpened}
+      >
+        {notificationsMarkup}
+      </Menu>
+    </>
+  )
 }
 
 Notifications.propTypes = {

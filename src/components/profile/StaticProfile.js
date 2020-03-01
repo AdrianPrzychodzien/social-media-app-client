@@ -22,12 +22,10 @@ const styles = theme => ({
   ...theme.profile
 })
 
-const StaticProfile = props => {
-  const {
-    classes,
-    profile: { handle, createdAt, imageUrl, bio, website, location }
-  } = props
-
+const StaticProfile = ({
+  classes,
+  profile: { handle, createdAt, imageUrl, bio, website, location }
+}) => {
   return (
     <Paper className={classes.paper}>
       <div className={classes.profile}>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import MyButton from '../../util/MyButton'
@@ -11,35 +11,29 @@ import { Home as HomeIcon } from '@material-ui/icons'
 
 import { connect } from 'react-redux'
 
-class NavBar extends Component {
-  render() {
-    const { authenticated } = this.props
-
-    return (
-      <AppBar>
-        <Toolbar className='nav-container'>
-          {authenticated ? (
-            <>
-              <PostScream />
-              <Link to="/">
-                <MyButton tip="Home">
-                  <HomeIcon />
-                </MyButton>
-              </Link>
-              <Notifications />
-            </>
-          ) : (
-              <>
-                <Button color='inherit' component={Link} to='/login'>Login</Button>
-                <Button color='inherit' component={Link} to='/'>Home</Button>
-                <Button color='inherit' component={Link} to='/signup'>Signup</Button>
-              </>
-            )}
-        </Toolbar>
-      </AppBar>
-    )
-  }
-}
+const NavBar = ({ authenticated }) => (
+  <AppBar>
+    <Toolbar className='nav-container'>
+      {authenticated ? (
+        <>
+          <PostScream />
+          <Link to="/">
+            <MyButton tip="Home">
+              <HomeIcon />
+            </MyButton>
+          </Link>
+          <Notifications />
+        </>
+      ) : (
+          <>
+            <Button color='inherit' component={Link} to='/login'>Login</Button>
+            <Button color='inherit' component={Link} to='/'>Home</Button>
+            <Button color='inherit' component={Link} to='/signup'>Signup</Button>
+          </>
+        )}
+    </Toolbar>
+  </AppBar>
+)
 
 NavBar.propTypes = {
   authenticated: PropTypes.bool.isRequired

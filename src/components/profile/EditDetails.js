@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import MyButton from '../../util/MyButton'
 
@@ -24,117 +24,111 @@ const styles = theme => ({
   }
 })
 
-class EditDetails extends Component {
-  state = {
+const EditDetails = ({ classes, credentials, editUserDetails }) => {
+  const [open, setOpen] = useState(false)
+  const [data, setData] = useState({
     bio: '',
     website: '',
     location: '',
-    open: false
+  })
+
+  useEffect(() => {
+    mapUserDetailsToState(credentials)
+  }, [credentials])
+
+  const { bio, website, location } = data
+
+  const handleOpen = () => {
+    setOpen(true)
+    mapUserDetailsToState(credentials)
   }
 
-  handleOpen = () => {
-    this.setState({ open: true })
-    this.mapUserDetailsToState(this.props.credentials)
+  const handleClose = () => {
+    setOpen(false)
   }
 
-  handleClose = () => {
-    this.setState({ open: false })
-  }
-
-  componentDidMount() {
-    const { credentials } = this.props
-    this.mapUserDetailsToState(credentials)
-  }
-
-  mapUserDetailsToState = credentials => {
-    this.setState({
+  const mapUserDetailsToState = credentials => {
+    setData({
       bio: credentials.bio ? credentials.bio : '',
       website: credentials.website ? credentials.website : '',
       location: credentials.location ? credentials.location : ''
     })
   }
 
-  handleChange = e => {
-    this.setState({
+  const handleChange = e => {
+    setData({
+      ...data,
       [e.target.name]: e.target.value
     })
   }
 
-  handleSubmit = () => {
-    const userDetails = {
-      bio: this.state.bio,
-      website: this.state.website,
-      location: this.state.location,
-    }
-    this.props.editUserDetails(userDetails)
-    this.handleClose()
+  const handleSubmit = () => {
+    const userDetails = { bio, website, location }
+    editUserDetails(userDetails)
+    handleClose()
   }
 
-  render() {
-    const { classes } = this.props
-
-    return (
-      <>
-        <MyButton
-          tip="Edit details"
-          onClick={this.handleOpen}
-          btnClassName={classes.button}>
-          <EditIcon color="primary" />
-        </MyButton>
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          fullWidth
-          maxWidth='sm'>
-          <DialogTitle>Edit your details</DialogTitle>
-          <DialogContent>
-            <form>
-              <TextField
-                name="bio"
-                type="text"
-                label="Bio"
-                multiline
-                rows="3"
-                placeholder="A short bio about yourself"
-                className={classes.textField}
-                value={this.state.bio}
-                onChange={this.handleChange}
-                fullWidth
-              />
-              <TextField
-                name="website"
-                type="text"
-                label="Website"
-                placeholder="Your personal/professional website"
-                className={classes.textField}
-                value={this.state.website}
-                onChange={this.handleChange}
-                fullWidth
-              />
-              <TextField
-                name="location"
-                type="text"
-                label="Location"
-                placeholder="Where you live"
-                className={classes.textField}
-                value={this.state.location}
-                onChange={this.handleChange}
-                fullWidth
-              />
-            </form>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
+  return (
+    <>
+      <MyButton
+        tip="Edit details"
+        onClick={handleOpen}
+        btnClassName={classes.button}>
+        <EditIcon color="primary" />
+      </MyButton>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        maxWidth='sm'>
+        <DialogTitle>Edit your details</DialogTitle>
+        <DialogContent>
+          <form>
+            <TextField
+              name="bio"
+              type="text"
+              label="Bio"
+              multiline
+              rows="3"
+              placeholder="A short bio about yourself"
+              className={classes.textField}
+              value={bio}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              name="website"
+              type="text"
+              label="Website"
+              placeholder="Your personal/professional website"
+              className={classes.textField}
+              value={website}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              name="location"
+              type="text"
+              label="Location"
+              placeholder="Where you live"
+              className={classes.textField}
+              value={location}
+              onChange={handleChange}
+              fullWidth
+            />
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
             </Button>
-            <Button onClick={this.handleSubmit} color="primary">
-              Save
+          <Button onClick={handleSubmit} color="primary">
+            Save
             </Button>
-          </DialogActions>
-        </Dialog>
-      </>
-    )
-  }
+        </DialogActions>
+      </Dialog>
+    </>
+  )
 }
 
 EditDetails.propTypes = {
