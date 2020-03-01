@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import AppIcon from '../images/icon.png'
 import { Link } from 'react-router-dom'
 
+import { Formik, Form, Field } from 'formik'
+
 import {
   Grid,
   Typography,
@@ -20,123 +22,107 @@ const styles = (theme) => ({
 })
 
 const Signup = ({ classes, signupUser, UI: { errors, loading }, history }) => {
-  const [data, setData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    handle: '',
-  })
   const [localErrors, setLocalErrors] = useState({})
 
   useEffect(() => {
     errors && setLocalErrors(errors)
   }, [errors])
 
-  const { email, password, confirmPassword, handle } = data
-
-  const handleSubmit = e => {
-    e.preventDefault()
-    const newUserData = {
-      email,
-      password,
-      confirmPassword,
-      handle,
-    }
-    signupUser(newUserData, history)
-  }
-
-  const handleChange = e => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value
-    })
-  }
-
   return (
-    <Grid container className={classes.form}>
-      <Grid item sm />
-      <Grid item sm>
-        <img src={AppIcon} alt="monkey" className={classes.image} />
-        <Typography
-          variant="h2"
-          className={classes.pageTitle}
-        >
-          Signup
-            </Typography>
-        <form noValidate onSubmit={handleSubmit}>
-          <TextField
-            id="email"
-            name='email'
-            type='email'
-            label='Email'
-            className={classes.textField}
-            helperText={localErrors.email}
-            error={localErrors.email ? true : false}
-            value={email}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            id="password"
-            name='password'
-            type='password'
-            label='Password'
-            className={classes.textField}
-            helperText={localErrors.password}
-            error={localErrors.password ? true : false}
-            value={password}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            id="confirmPassword"
-            name='confirmPassword'
-            type='password'
-            label='Confirm Password'
-            className={classes.textField}
-            helperText={localErrors.confirmPassword}
-            error={localErrors.confirmPassword ? true : false}
-            value={confirmPassword}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            id="handle"
-            name='handle'
-            type='text'
-            label='Handle'
-            className={classes.textField}
-            helperText={localErrors.handle}
-            error={localErrors.handle ? true : false}
-            value={handle}
-            onChange={handleChange}
-            fullWidth
-          />
-          {localErrors.general && (
-            <Typography
-              variant='body2'
-              className={classes.customError}>
-              {localErrors.general}
-            </Typography>
-          )}
-          <Button
-            type='submit'
-            variant='contained'
-            color='primary'
-            className={classes.button}
-            disabled={loading}
+    <Formik initialValues={{
+      email: '',
+      password: '',
+      confirmPassword: '',
+      handle: ''
+    }}
+      onSubmit={({ email, password, confirmPassword, handle }) => {
+        const newUserData = {
+          email,
+          password,
+          confirmPassword,
+          handle,
+        }
+        signupUser(newUserData, history)
+      }}
+    >{() => (
+      <Grid container className={classes.form}>
+        <Grid item sm />
+        <Grid item sm>
+          <img src={AppIcon} alt="monkey" className={classes.image} />
+          <Typography
+            variant="h2"
+            className={classes.pageTitle}
           >
             Signup
-              {loading && (
-              <CircularProgress size={30} className={classes.progress} />
+            </Typography>
+          <Form>
+            <Field
+              name='email'
+              type='email'
+              label='Email'
+              className={classes.textField}
+              helperText={localErrors.email}
+              error={localErrors.email ? true : false}
+              fullWidth
+              as={TextField}
+            />
+            <Field
+              name='password'
+              type='password'
+              label='Password'
+              className={classes.textField}
+              helperText={localErrors.password}
+              error={localErrors.password ? true : false}
+              fullWidth
+              as={TextField}
+            />
+            <Field
+              name='confirmPassword'
+              type='password'
+              label='Confirm Password'
+              className={classes.textField}
+              helperText={localErrors.confirmPassword}
+              error={localErrors.confirmPassword ? true : false}
+              fullWidth
+              as={TextField}
+            />
+            <Field
+              name='handle'
+              type='text'
+              label='Handle'
+              className={classes.textField}
+              helperText={localErrors.handle}
+              error={localErrors.handle ? true : false}
+              fullWidth
+              as={TextField}
+            />
+            {localErrors.general && (
+              <Typography
+                variant='body2'
+                className={classes.customError}>
+                {localErrors.general}
+              </Typography>
             )}
-          </Button>
-          <br />
-          <small>Already have an account ? login <Link to='/login'>here</Link></small>
-        </form>
+            <Button
+              type='submit'
+              variant='contained'
+              color='primary'
+              className={classes.button}
+              disabled={loading}
+            >
+              Signup
+              {loading && (
+                <CircularProgress size={30} className={classes.progress} />
+              )}
+            </Button>
+            <br />
+            <small>Already have an account ? login <Link to='/login'>here</Link></small>
+          </Form>
+        </Grid>
+        <Grid item sm />
       </Grid>
-      <Grid item sm />
-    </Grid>
+    )}
+    </Formik>
   )
 }
 

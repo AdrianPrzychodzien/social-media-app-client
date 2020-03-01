@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import AppIcon from '../images/icon.png'
 import { Link } from 'react-router-dom'
 
+import { Formik, Form, Field } from 'formik'
+
 import {
   Grid,
   Typography,
@@ -20,93 +22,82 @@ const styles = (theme) => ({
 })
 
 const Login = ({ classes, loginUser, UI: { loading, errors }, history }) => {
-  const [data, setData] = useState({
-    email: '',
-    password: ''
-  })
   const [localErrors, setLocalErrors] = useState({})
-
-  const { email, password } = data
 
   useEffect(() => {
     errors && setLocalErrors(errors)
   }, [errors])
 
-  const handleSubmit = e => {
-    e.preventDefault()
-
-    const userData = { email, password }
-    loginUser(userData, history)
-  }
-
-  const handleChange = e => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value
-    })
-  }
-
   return (
-    <Grid container className={classes.form}>
-      <Grid item sm />
-      <Grid item sm>
-        <img src={AppIcon} alt="monkey" className={classes.image} />
-        <Typography
-          variant="h2"
-          className={classes.pageTitle}
-        >
-          Login
-            </Typography>
-        <form noValidate onSubmit={handleSubmit}>
-          <TextField
-            id="email"
-            name='email'
-            type='email'
-            label='Email'
-            className={classes.textField}
-            helperText={localErrors.email}
-            error={localErrors.email ? true : false}
-            value={email}
-            onChange={handleChange}
-            fullWidth
-          />
-          <TextField
-            id="password"
-            name='password'
-            type='password'
-            label='Password'
-            className={classes.textField}
-            helperText={localErrors.password}
-            error={localErrors.password ? true : false}
-            value={password}
-            onChange={handleChange}
-            fullWidth
-          />
-          {localErrors.general && (
+    <Formik initialValues={{
+      email: '',
+      password: ''
+    }}
+      onSubmit={({ email, password }) => {
+        const userData = { email, password }
+        loginUser(userData, history)
+      }}
+    >
+      {() => (
+        <Grid container className={classes.form}>
+          <Grid item sm />
+          <Grid item sm>
+            <img src={AppIcon} alt="monkey" className={classes.image} />
             <Typography
-              variant='body2'
-              className={classes.customError}>
-              {localErrors.general}
-            </Typography>
-          )}
-          <Button
-            type='submit'
-            variant='contained'
-            color='primary'
-            className={classes.button}
-            disabled={loading}
-          >
-            Login
-              {loading && (
-              <CircularProgress size={30} className={classes.progress} />
-            )}
-          </Button>
-          <br />
-          <small>dont have an account ? sign up <Link to='/signup'>here</Link></small>
-        </form>
-      </Grid>
-      <Grid item sm />
-    </Grid>
+              variant="h2"
+              className={classes.pageTitle}
+            >
+              Login
+          </Typography>
+            <Form>
+              <Field
+                type="email"
+                name="email"
+                label='Email'
+                helperText={localErrors.email}
+                error={localErrors.email ? true : false}
+                className={classes.textField}
+                fullWidth
+                as={TextField}
+              />
+              <Field
+                type="password"
+                name="password"
+                label='Password'
+                helperText={localErrors.password}
+                error={localErrors.password ? true : false}
+                className={classes.textField}
+                fullWidth
+                as={TextField}
+              />
+
+              {localErrors.general && (
+                <Typography
+                  variant='body2'
+                  className={classes.customError}>
+                  {localErrors.general}
+                </Typography>
+              )}
+              <Button
+                type='submit'
+                variant='contained'
+                color='primary'
+                className={classes.button}
+                disabled={loading}
+              >
+                Login
+            {loading && (
+                  <CircularProgress size={30} className={classes.progress} />
+                )}
+              </Button>
+              <br />
+              <small>dont have an account ? sign up <Link to='/signup'>here</Link></small>
+            </Form>
+          </Grid>
+          <Grid item sm />
+        </Grid>
+      )}
+    </Formik>
   )
 }
 
