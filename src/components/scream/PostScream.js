@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import MyButton from '../../util/MyButton'
 
@@ -37,99 +37,96 @@ const styles = theme => ({
   }
 })
 
-class PostScream extends Component {
-  state = {
-    open: false,
-    body: '',
-    errors: {}
-  }
+const PostScream = ({
+  classes,
+  clearErrors,
+  postScream,
+  UI: { loading, errors }
+}) => {
+  const [open, setOpen] = useState(false)
+  const [body, setBody] = useState('')
+  const [localErrors, setLocalErrors] = useState({})
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({
-        errors: nextProps.UI.errors
-      })
+  useEffect(() => {
+    if (errors) {
+      setLocalErrors(errors)
     }
-    if (!nextProps.UI.errors && !nextProps.UI.loading) {
-      this.setState({ body: '', open: false, errors: {} })
+    if (!errors && !loading) {
+      setOpen(false)
+      setBody('')
+      setLocalErrors({})
     }
+  }, [errors, loading])
+
+  const handleOpen = () => {
+    setOpen(true)
   }
 
-  handleOpen = () => {
-    this.setState({ open: true })
+  const handleClose = () => {
+    clearErrors()
+    setOpen(false)
+    setLocalErrors({})
   }
 
-  handleClose = () => {
-    this.props.clearErrors()
-    this.setState({ open: false, errors: {} })
+  const handleChange = e => {
+    setBody(e.target.value)
   }
 
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault()
-    this.props.postScream({ body: this.state.body })
+    postScream({ body: body })
   }
 
-  render() {
-    const { errors } = this.state
-    const { classes, UI: { loading } } = this.props
-
-    return (
-      <>
-        <MyButton tip="Post a Scream!" onClick={this.handleOpen}>
-          <AddIcon />
+  return (
+    <>
+      <MyButton tip="Post a Scream!" onClick={handleOpen}>
+        <AddIcon />
+      </MyButton>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        fullWidth
+        maxWidth="sm">
+        <MyButton
+          tip="Close"
+          onClick={handleClose}
+          tipClassName={classes.closeButton}
+        >
+          <CloseIcon />
         </MyButton>
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          fullWidth
-          maxWidth="sm">
-          <MyButton
-            tip="Close"
-            onClick={this.handleClose}
-            tipClassName={classes.closeButton}
-          >
-            <CloseIcon />
-          </MyButton>
-          <DialogTitle>Post a new scream</DialogTitle>
-          <DialogContent>
-            <form onSubmit={this.handleSubmit}>
-              <TextField
-                name="body"
-                type="text"
-                label="Scream!"
-                multiline
-                rows="3"
-                placeholder="Scream at your fellows"
-                error={errors.body ? true : false}
-                helperText={errors.body}
-                className={classes.textField}
-                onChange={this.handleChange}
-                fullWidth
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                className={classes.submitButton}
-                disabled={loading}
-              >
-                Submit
+        <DialogTitle>Post a new scream</DialogTitle>
+        <DialogContent>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              name="body"
+              type="text"
+              label="Scream!"
+              multiline
+              rows="3"
+              placeholder="Scream at your fellows"
+              error={localErrors && localErrors.body ? true : false}
+              helperText={localErrors && localErrors.body}
+              className={classes.textField}
+              onChange={handleChange}
+              fullWidth
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submitButton}
+              disabled={loading}
+            >
+              Submit
                 {loading && (
-                  <CircularProgress size={30} className={classes.progressSpinner} />
-                )}
-              </Button>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </>
-    )
-  }
+                <CircularProgress size={30} className={classes.progressSpinner} />
+              )}
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </>
+  )
 }
 
 PostScream.propTypes = {
