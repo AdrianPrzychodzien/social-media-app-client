@@ -48,9 +48,7 @@ const PostScream = ({
   const [localErrors, setLocalErrors] = useState({})
 
   useEffect(() => {
-    if (errors) {
-      setLocalErrors(errors)
-    }
+    errors && setLocalErrors(errors)
     if (!errors && !loading) {
       setOpen(false)
       setBody('')

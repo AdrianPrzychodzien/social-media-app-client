@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import MyButton from '../../util/MyButton'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -12,48 +12,46 @@ import { connect } from 'react-redux'
 import { likeScream, unlikeScream } from '../../redux/actions/dataActions'
 
 
-class LikeButton extends Component {
+const LikeButton = ({ likeScream, unlikeScream, user, screamId }) => {
 
-  likedScream = () => {
+  const likedScream = () => {
     if (
-      this.props.user.likes &&
-      this.props.user.likes.find(
-        like => like.screamId === this.props.screamId
+      user.likes &&
+      user.likes.find(
+        like => like.screamId === screamId
       )
     )
       return true
     else return false
   }
 
-  likeScream = () => {
-    this.props.likeScream(this.props.screamId)
+  const handleLikeScream = () => {
+    likeScream(screamId)
   }
 
-  unlikeScream = () => {
-    this.props.unlikeScream(this.props.screamId)
+  const handleUnlikeScream = () => {
+    unlikeScream(screamId)
   }
 
-  render() {
-    const { authenticated } = this.props.user
+  const { authenticated } = user
 
-    const likeButton = !authenticated ? (
-      <Link to='/login'>
-        <MyButton tip="Like">
+  const likeButton = !authenticated ? (
+    <Link to='/login'>
+      <MyButton tip="Like">
+        <FavoriteBorder color="primary" />
+      </MyButton>
+    </Link>
+  ) : likedScream() ? (
+    <MyButton tip="Undo like" onClick={handleUnlikeScream}>
+      <FavoriteIcon color="primary" />
+    </MyButton>
+  ) : (
+        <MyButton tip="Like" onClick={handleLikeScream}>
           <FavoriteBorder color="primary" />
         </MyButton>
-      </Link>
-    ) : this.likedScream() ? (
-      <MyButton tip="Undo like" onClick={this.unlikeScream}>
-        <FavoriteIcon color="primary" />
-      </MyButton>
-    ) : (
-          <MyButton tip="Like" onClick={this.likeScream}>
-            <FavoriteBorder color="primary" />
-          </MyButton>
-        )
+      )
 
-    return likeButton
-  }
+  return likeButton
 }
 
 LikeButton.propTypes = {
